@@ -30,13 +30,14 @@ class Simkl:
         self.headers = {"Content-Type": "application-json", "simkl-api-key": APIKEY}
         if token:
             self.headers["authorization"] = "Bearer " + token
-            r = self.get_user_settings()
-            if r:
-                print(r)
-                return
-            elif r is None:
-                print("Error:", r)
-                return
+        return
+            # r = self.get_user_settings()
+            # if r:
+            #     print(r)
+            #     return
+            # elif r is None:
+            #     print("Error:", r)
+            #     return
         # self.login()
 
     def get_user_settings(self):
@@ -44,7 +45,6 @@ class Simkl:
         if isinstance(r, dict):
             self.userSettings = r
             self.isLoggedIn = True
-            print("Usersettings = " + str(self.userSettings))
             return True
         return r
 

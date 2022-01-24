@@ -3,6 +3,9 @@ from plexapi.server import PlexServer
 from dotenv import load_dotenv
 from includes import api_simkl
 from fuzzywuzzy import fuzz
+
+from includes import anilist
+from includes import graphql
 import os, sys, requests
 
 load_dotenv()
@@ -12,6 +15,9 @@ SERVERNAME = os.environ.get("SERVERNAME")
 TOKENBASED = os.environ.get("TOKENBASED")
 BASEURL = os.environ.get("BASEURL")
 TOKEN = os.environ.get("TOKEN")
+ANILISTCLIENTID = os.environ.get("ANILISTCLIENTID")
+ANILISTCLIENTSECRET = os.environ.get("ANILISTCLIENTSECRET")
+GRAPHQLTOKEN = os.environ.get("GRAPHQLTOKEN")
 
 try:
     if TOKENBASED:
@@ -25,22 +31,42 @@ try:
 except:
     sys.exit("Failed to login")
 
-api = api_simkl.Simkl()
+# api = api_simkl.Simkl()
+#
+# allItems = api.get_all_items()
+#
+# movies = plex.library.section('Movies')
+# for video in movies.search(unwatched=True):
+#     for watched in allItems["movies"]:
+#         if video.title.lower() == watched["movie"]["title"].lower():
+#             print(video.title, " matched ", watched["movie"]["title"])
+#             video.markWatched()
+#
+# shows = plex.library.section('Series')
+# for video in shows.search(unwatched=True):
+#     for watched in allItems["shows"]:
+#         if video.title.lower() in watched["show"]["title"].lower():
+#             print(video.title, " matched ", watched["show"]["title"])
+#             video.markWatched()
 
-allItems = api.get_all_items()
+graphql.ANILIST_ACCESS_TOKEN = GRAPHQLTOKEN
+# url = f"https://anilist.co/api/v2/oauth/authorize?client_id={ANILISTCLIENTID}&response_type=token"
+# print(url)
+anilist_series = anilist.process_user_list("Fenroar")
 
-print()
-
-movies = plex.library.section('Movies')
-for video in movies.search(unwatched=True):
-    for watched in allItems["movies"]:
-        if video.title in watched["movie"]["title"]:
-            print(video.title, " matched ", watched["movie"]["title"])
-            video.markWatched()
-
-shows = plex.library.section('Series')
-for video in shows.search(unwatched=True):
-    for watched in allItems["shows"]:
-        if video.title in watched["show"]["title"]:
-            print(video.title, " matched ", watched["show"]["title"])
-            video.markWatched()
+anime = plex.library.section('Anime')
+for video in anime.search(unwatched=True):
+    for series in anilist_series:
+        if series.status == "COMPLETED":
+            if series.title_english:
+                if video.title.lower() in series.title_english.lower():
+                    print(video.title, " matched ", series)
+                    video.markWatched()
+            elif series.title_romaji:
+                if video.title.lower() in series.title_romaji.lower():
+                    print(video.title, " matched ", series)
+                    video.markWatched()
+            elif series.synonyms:
+                if (video.title.lower() in series.synonyms.lower()):
+                    print(video.title, " matched ", series)
+                    video.markWatched()

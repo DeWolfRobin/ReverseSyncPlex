@@ -31,29 +31,39 @@ try:
 except:
     sys.exit("Failed to login")
 
-# api = api_simkl.Simkl()
-#
-# allItems = api.get_all_items()
-#
-# movies = plex.library.section('Movies')
+api = api_simkl.Simkl()
+
+allItems = api.get_all_items()
+# The code underneath is a buildingblock that can be reused as seen below. change the values where needed
+# movies = plex.library.section('LibraryName, as seen below')
 # for video in movies.search(unwatched=True):
 #     for watched in allItems["movies"]:
 #         if video.title.lower() == watched["movie"]["title"].lower():
 #             print(video.title, " matched ", watched["movie"]["title"])
 #             video.markWatched()
-#
-# shows = plex.library.section('Series')
-# for video in shows.search(unwatched=True):
-#     for watched in allItems["shows"]:
-#         if video.title.lower() in watched["show"]["title"].lower():
-#             print(video.title, " matched ", watched["show"]["title"])
-#             video.markWatched()
+
+# Examples
+movies = plex.library.section('Movies')
+for video in movies.search(unwatched=True):
+    for watched in allItems["movies"]:
+        if video.title.lower() == watched["movie"]["title"].lower():
+            print(video.title, " matched ", watched["movie"]["title"])
+            video.markWatched()
+
+shows = plex.library.section('Series')
+for video in shows.search(unwatched=True):
+    for watched in allItems["shows"]:
+        if video.title.lower() in watched["show"]["title"].lower():
+            print(video.title, " matched ", watched["show"]["title"])
+            video.markWatched()
+
 
 graphql.ANILIST_ACCESS_TOKEN = GRAPHQLTOKEN
 # url = f"https://anilist.co/api/v2/oauth/authorize?client_id={ANILISTCLIENTID}&response_type=token"
 # print(url)
 anilist_series = anilist.process_user_list("Fenroar")
 
+#Example of an anime library
 anime = plex.library.section('Anime')
 for video in anime.search(unwatched=True):
     for series in anilist_series:

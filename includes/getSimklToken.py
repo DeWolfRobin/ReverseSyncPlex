@@ -21,4 +21,4 @@ while r.json()["result"] != "OK":
     time.sleep(5)
     r = requests.get(f'https://api.simkl.com/oauth/pin/{json["user_code"]}?client_id={SIMKLCLIENTID}')
 
-print(r.json()["access_token"])
+print("SIMKLAPITOKEN: ", r.json()["access_token"])

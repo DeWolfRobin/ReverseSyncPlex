@@ -6,6 +6,7 @@ At the moment this is very finicky, as you need to change the code yourself alot
 
 Open sync.py and edit the following:
 - line 38-43 (the for loop) is a copy-paste example of a library in plex. more information inside the file.
+- line 64: Change "Fenroar" to your anilist username
 
 example .env file (create this in root folder):
 ```

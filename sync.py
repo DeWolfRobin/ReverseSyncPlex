@@ -69,14 +69,14 @@ for video in anime.search(unwatched=True):
     for series in anilist_series:
         if series.status == "COMPLETED":
             if series.title_english:
-                if video.title.lower() in series.title_english.lower().replace(":",""):
+                if video.title.lower() in series.title_english.lower():
                     print(video.title, " matched ", series)
                     video.markWatched()
             elif series.title_romaji:
-                if video.title.lower() in series.title_romaji.lower().replace(":",""):
+                if video.title.lower() in series.title_romaji.lower():
                     print(video.title, " matched ", series)
                     video.markWatched()
             elif series.synonyms:
-                if video.title.lower() in series.synonyms.lower().replace(":",""):
+                if video.title.lower() in series.synonyms.lower():
                     print(video.title, " matched ", series)
                     video.markWatched()

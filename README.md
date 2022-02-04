@@ -1,6 +1,6 @@
 # ReverseSyncPlex
 
-A tool to sync FROM tool such as Anilist and Simkl TO plex. This is handy when Plex was reinstalled and you lost your progress.
+A tool to sync FROM sites such as Anilist and Simkl TO plex. This is handy when Plex was reinstalled and you lost your progress.
 
 At the moment this is very finicky, as you need to change the code yourself alot,  but I tried to make it a s clear as possible.
 
